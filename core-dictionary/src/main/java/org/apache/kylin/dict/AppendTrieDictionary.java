@@ -49,6 +49,7 @@ import org.apache.kylin.common.util.Bytes;
 import org.apache.kylin.common.util.BytesUtil;
 import org.apache.kylin.common.util.ClassUtil;
 import org.apache.kylin.common.util.Dictionary;
+import org.apache.kylin.common.util.HadoopUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -1033,7 +1034,7 @@ public class AppendTrieDictionary<T> extends Dictionary<T> {
 
     public void flushIndex(CachedTreeMap dictSliceMap) throws IOException {
         Path filePath = new Path(dictSliceMap.getCurrentDir() + "/.index");
-        Configuration conf = new Configuration();
+        Configuration conf = HadoopUtil.getCurrentConfiguration();
         try (FSDataOutputStream indexOut = (FileSystem.get(filePath.toUri(), conf)).create(filePath, true, 8 * 1024 * 1024, (short) 5, 8 * 1024 * 1024 * 8)) {
             indexOut.writeInt(baseId);
             indexOut.writeInt(maxId);
@@ -1047,7 +1048,7 @@ public class AppendTrieDictionary<T> extends Dictionary<T> {
 
     @Override
     public AppendTrieDictionary copyToAnotherMeta(KylinConfig srcConfig, KylinConfig dstConfig) throws IOException {
-        Configuration conf = new Configuration();
+        Configuration conf = HadoopUtil.getCurrentConfiguration();
         AppendTrieDictionary newDict = new AppendTrieDictionary();
         newDict.update(baseDir.replaceFirst(srcConfig.getHdfsWorkingDirectory(), dstConfig.getHdfsWorkingDirectory()), baseId, maxId, maxValueLength, nValues, bytesConverter, (CachedTreeMap)dictSliceMap);
         logger.info("Copy AppendDict from {} to {}", this.baseDir, newDict.baseDir);
@@ -1072,7 +1073,7 @@ public class AppendTrieDictionary<T> extends Dictionary<T> {
     public void readFields(DataInput in) throws IOException {
         String baseDir = in.readUTF();
         Path filePath = new Path(baseDir + "/.index");
-        Configuration conf = new Configuration();
+        Configuration conf = HadoopUtil.getCurrentConfiguration();
         try (FSDataInputStream input = (FileSystem.get(filePath.toUri(), conf)).open(filePath, 8 * 1024 * 1024)) {
             int baseId = input.readInt();
             int maxId = input.readInt();

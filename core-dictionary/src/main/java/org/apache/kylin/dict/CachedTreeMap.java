@@ -36,6 +36,7 @@ import org.apache.hadoop.fs.FileUtil;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.io.WritableComparable;
+import org.apache.kylin.common.util.HadoopUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -130,7 +131,7 @@ public class CachedTreeMap<K extends WritableComparable, V extends Writable> ext
         this.keyClazz = keyClazz;
         this.valueClazz = valueClazz;
         this.fileList = new TreeSet<>();
-        this.conf = new Configuration();
+        this.conf = HadoopUtil.getCurrentConfiguration();
         if (baseDir.endsWith("/")) {
             this.baseDir = baseDir.substring(0, baseDir.length()-1);
         } else {

@@ -40,6 +40,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.kylin.common.KylinConfig;
+import org.apache.kylin.common.util.HadoopUtil;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -66,7 +67,8 @@ public class AppendTrieDictionaryTest {
     public static void tearDown() {
         String workingDir = KylinConfig.getInstanceFromEnv().getHdfsWorkingDirectory();
         try {
-            FileSystem.get(new Path(workingDir).toUri(), new Configuration()).delete(new Path(workingDir), true);
+            Configuration conf = HadoopUtil.getCurrentConfiguration();
+            FileSystem.get(new Path(workingDir).toUri(), conf).delete(new Path(workingDir), true);
         } catch (IOException e) {
         }
         File tmpLocalDir = new File(BASE_DIR);
