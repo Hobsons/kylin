@@ -20,6 +20,7 @@ package org.apache.kylin.engine.mr;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.kylin.common.util.HadoopUtil;
 
 /**
  */

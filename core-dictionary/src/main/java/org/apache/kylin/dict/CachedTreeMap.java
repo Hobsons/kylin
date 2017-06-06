@@ -38,6 +38,7 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.PathFilter;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.io.WritableComparable;
+import org.apache.kylin.common.util.HadoopUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -145,7 +146,7 @@ public class CachedTreeMap<K extends WritableComparable, V extends Writable> ext
         this.keepAppend = true;
         this.maxVersions = maxVersions;
         this.versionTTL = versionTTL;
-        this.conf = new Configuration();
+        this.conf = HadoopUtil.getCurrentConfiguration();
         if (basePath.endsWith("/")) {
             basePath = basePath.substring(0, basePath.length()-1);
         }

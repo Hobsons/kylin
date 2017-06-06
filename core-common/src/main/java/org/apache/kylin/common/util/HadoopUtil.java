@@ -16,7 +16,7 @@
  * limitations under the License.
 */
 
-package org.apache.kylin.engine.mr;
+package org.apache.kylin.common.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;

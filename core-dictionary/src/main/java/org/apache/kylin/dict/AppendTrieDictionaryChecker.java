@@ -23,6 +23,7 @@ import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.kylin.common.KylinConfig;
+import org.apache.kylin.common.util.HadoopUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ import java.util.List;
 public class AppendTrieDictionaryChecker {
 
     public boolean runChecker(String baseDir) throws IOException {
-        Configuration conf = new Configuration();
+        Configuration conf = HadoopUtil.getCurrentConfiguration();
         Path basePath = new Path(baseDir);
         FileSystem fs = FileSystem.get(basePath.toUri(), conf);
         List<Path> sliceList = new ArrayList<>();
