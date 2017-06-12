@@ -351,6 +351,13 @@ public class KylinConfig extends KylinConfigBase {
 
     }
 
+    public int getAppendDictMaxVersions() {
+        return Integer.parseInt(getOptional("kylin.dict.append.max.versions", "3"));
+    }
+
+    public int getAppendDictVersionTTL() {
+        return Integer.parseInt(getOptional("kylin.dict.append.version.ttl", "259200000"));
+    }
     private static void dumpStackTrace() {
 
         //uncomment below to start debugging
